@@ -30,7 +30,13 @@ enum class ItemType {
             item.quality = newQuality.coerceIn(0, 50)
         }
     },
-    CONJURED;
+    CONJURED{
+        override fun updateQuality(item: Item) {
+            val qualityAging = if (item.sellIn < 0) 4 else 2
+            val newQuality = item.quality - qualityAging
+            item.quality = newQuality.coerceIn(0, 50)
+        }
+    };
 
     open fun updateQuality(item: Item) {
         val qualityAging = if (item.sellIn < 0) 2 else 1
