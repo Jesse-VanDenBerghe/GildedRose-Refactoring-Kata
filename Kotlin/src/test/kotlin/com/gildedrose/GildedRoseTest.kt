@@ -81,6 +81,36 @@ internal class GildedRoseTest {
             }
         }
 
+        @Nested
+        @DisplayName("Aged Brie actually increases in Quality the older it gets")
+        inner class AgedBrieQualityIncrease {
+
+            @Test
+            fun `Aged Brie increases in quality`() {
+                val items = listOf(Item("Aged Brie", 1, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(11, app.items[0].quality)
+            }
+
+            @Test
+            // This was not written in the requirements, but I added it since it was present in the original code
+            fun `Aged Brie increases in quality twice as fast after sellIn date`() {
+                val items = listOf(Item("Aged Brie", 0, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(12, app.items[0].quality)
+            }
+
+            @Test
+            fun `Aged Brie quality should not exceed 50`() {
+                val items = listOf(Item("Aged Brie", 1, 50))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(50, app.items[0].quality)
+            }
+        }
+
     }
 
 }
