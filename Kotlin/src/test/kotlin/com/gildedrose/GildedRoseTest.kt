@@ -111,6 +111,28 @@ internal class GildedRoseTest {
             }
         }
 
+        @Nested
+        @DisplayName("The Quality of an item is never more than 50")
+        inner class QualityNeverMoreThan50 {
+
+            @Test
+            fun `Quality should not exceed 50`() {
+                val items = listOf(Item("Aged Brie", 1, 50))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(50, app.items[0].quality)
+            }
+
+            @Test
+            //This test failed on the original code, but I added it since the requirement said it should NEVER be more than 50
+            fun `Quality should never exceed 50`() {
+                val items = listOf(Item("Aged Brie", 1, 51))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(50, app.items[0].quality)
+            }
+        }
+
     }
 
 }
