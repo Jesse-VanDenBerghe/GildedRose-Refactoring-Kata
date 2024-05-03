@@ -133,6 +133,27 @@ internal class GildedRoseTest {
             }
         }
 
+        @Nested
+        @DisplayName("Sulfuras, being a legendary item, never has to be sold or decreases in Quality")
+        inner class LegendaryItemDoesNotChange{
+
+                @Test
+                fun `Legendary quality should not change`() {
+                    val items = listOf(Item("Sulfuras, Hand of Ragnaros", 1, 80))
+                    val app = GildedRose(items)
+                    app.updateQuality()
+                    assertEquals(80, app.items[0].quality)
+                }
+
+                @Test
+                fun `Legendary sellIn should not change`() {
+                    val items = listOf(Item("Sulfuras, Hand of Ragnaros", 1, 80))
+                    val app = GildedRose(items)
+                    app.updateQuality()
+                    assertEquals(1, app.items[0].sellIn)
+                }
+        }
+
     }
 
 }
