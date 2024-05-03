@@ -20,7 +20,6 @@ internal class GildedRoseTest {
     }
 
     @Nested
-    @DisplayName("Requirements to test")
     inner class Requirements {
 
         @Nested
@@ -49,6 +48,36 @@ internal class GildedRoseTest {
                 val app = GildedRose(items)
                 app.updateQuality()
                 assertEquals(8, app.items[0].quality)
+            }
+        }
+
+        @Nested
+        @DisplayName("The Quality of an item is never negative")
+        inner class QualityNeverNegative {
+
+            @Test
+            fun `Quality should decrease normally`() {
+                val items = listOf(Item("foo", 1, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(9, app.items[0].quality)
+            }
+
+            @Test
+            fun `Quality should not drop below 0`() {
+                val items = listOf(Item("foo", 1, 0))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(0, app.items[0].quality)
+            }
+
+            @Test
+            //This test failed on the original code, but I added it since the requirement said it should NEVER be negative
+            fun `Quality should never be negative`() {
+                val items = listOf(Item("foo", 1, -1))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(0, app.items[0].quality)
             }
         }
 
