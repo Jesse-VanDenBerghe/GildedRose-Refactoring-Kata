@@ -154,6 +154,51 @@ internal class GildedRoseTest {
                 }
         }
 
+        @Nested
+        @DisplayName("Backstage passes, like Aged Brie, increases in Quality as its SellIn value approaches")
+        inner class BackstagePassesQualityIncrease {
+
+            @Test
+            fun `Backstage passes increases in quality normally before 10 days`() {
+                val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 15, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(11, app.items[0].quality)
+            }
+
+            @Test
+            fun `Backstage passes increases in quality by 2 when there are 10 days or less`() {
+                val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 10, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(12, app.items[0].quality)
+            }
+
+            @Test
+            fun `Backstage passes increases in quality by 3 when there are 5 days or less`() {
+                val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 5, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(13, app.items[0].quality)
+            }
+
+            @Test
+            fun `Backstage passes quality drops to 0 after the concert`() {
+                val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 0, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(0, app.items[0].quality)
+            }
+
+            @Test
+            fun `Backstage passes quality should not exceed 50`() {
+                val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 5, 50))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(50, app.items[0].quality)
+            }
+        }
+
     }
 
 }
