@@ -6,8 +6,8 @@ val Item.type
     get() = ItemType.fromItem(this)
 
 fun Item.age() {
-    updateQuality()
     updateSellIn()
+    updateQuality()
 }
 
 private fun Item.updateQuality() = type.updateQuality(this)
