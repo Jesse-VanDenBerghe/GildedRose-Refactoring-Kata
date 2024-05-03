@@ -199,6 +199,35 @@ internal class GildedRoseTest {
             }
         }
 
+        @Nested
+        @DisplayName("Conjured items degrade in Quality twice as fast as normal items")
+        inner class ConjuredItemsQualityDegrade {
+
+            @Test
+            fun `Conjured items degrade in quality twice as fast`() {
+                val items = listOf(Item("Conjured Mana Cake", 1, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(8, app.items[0].quality)
+            }
+
+            @Test
+            fun `Conjured items degrade in quality twice as fast after sellIn date`() {
+                val items = listOf(Item("Conjured Mana Cake", 0, 10))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(6, app.items[0].quality)
+            }
+
+            @Test
+            fun `Conjured items quality should not drop below 0`() {
+                val items = listOf(Item("Conjured Mana Cake", 1, 0))
+                val app = GildedRose(items)
+                app.updateQuality()
+                assertEquals(0, app.items[0].quality)
+            }
+        }
+
     }
 
 }
